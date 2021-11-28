@@ -6,7 +6,6 @@ public class Test {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        Scanner scanner = new Scanner(new File("dictionary.txt"));
         Scanner input = new Scanner(System.in);
 
         //promote the user to enter the list of letters or a word
@@ -14,39 +13,39 @@ public class Test {
         String[] letters = input.nextLine().split("");
         Arrays.sort(letters);
 
-        String str = String.join("", letters).toLowerCase();
-
-        Trie trie = new Trie();
-        trie.initialInsert(str);
-
-        while(scanner.hasNext()){
-            String s1 = scanner.nextLine().toLowerCase();
-
-            String[] s = s1.split("");
-            Arrays.sort(s);
-            String word = String.join("", s).toLowerCase();
-
-            if(str.equalsIgnoreCase(word))
-                trie.insert(s1);
+        //combine the letters in a word
+        String word = "";
+        for (int i = 0; i < letters.length; i++){
+            if (!(letters[i].equals(" ")))
+                word = word + letters[i];
         }
+
+        //create a trie and insert the word in it
+        Trie trie = new Trie();
+        trie.initialInsert(word.toLowerCase());
+
+        //insert the permutations in the trie
+        readDic("dictionary.txt", word, trie);
 
 
     }
-    public static List<String> permutations(String s) {
 
-        List<String>combinations=new ArrayList<String>();
-        if(s.length()==1){
-            combinations.add(s);
+    public static void readDic(String filename, String str, Trie trie) throws FileNotFoundException {
+        Scanner scanner = new Scanner(new File(filename));
+        while(scanner.hasNext()){
+            //read the word from the dictionary
+            String dicWord = scanner.nextLine().toLowerCase();
+
+            //split the word, to sort it
+            String[] s = dicWord.split("");
+            Arrays.sort(s);
+            String sortedWord = String.join("", s).toLowerCase();
+
+            //check if the word from the dictionary is permutation to the letters entered by the user
+            if(str.equalsIgnoreCase(sortedWord))
+                trie.insert(dicWord);  //insert to the trie
+
         }
-        else{
-            for(int i=0;i<s.length();i++){
-                List<String>temp=permutations(s.substring(0, i)+s.substring(i+1));
-                for (String string : temp) {
-                    combinations.add(s.charAt(i)+string);
-                }
-            }
-        }
-        return combinations;
     }
 
 }
