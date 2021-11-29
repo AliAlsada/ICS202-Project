@@ -15,13 +15,28 @@ public class Trie {
         } p.isWord = true;
     }
 
-    public void initialInsert(String s){
+
+    public TrieNode getNode(String word){
         TrieNode p = root;
-        for (int i = 0; i < s.length(); i++){
-            char c  = s.charAt(i);
+        for (int i = 0; i<word.length(); i++) {
+            char c = word.charAt(i);
             if (p.children[c - 'a'] == null)
-                p.children[c - 'a'] = new TrieNode(c);
-        }
+                return null;
+            p = p.children[c - 'a'];
+        }return p;
+    }
+
+    public boolean search(String word){
+        TrieNode node = getNode(word);
+        return node != null && node.isWord;
+    }
+
+    public void search(TrieNode p){
+
+    }
+
+    public boolean startsWith(String prefix){
+        return getNode(prefix) != null;
     }
 
 
