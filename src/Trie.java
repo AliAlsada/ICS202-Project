@@ -26,18 +26,36 @@ public class Trie {
         }return p;
     }
 
-    public boolean search(String word){
+    public boolean isPrefix(String prefix){
+        return getNode(prefix) != null;
+    }
+
+    public boolean contains(String word){
         TrieNode node = getNode(word);
         return node != null && node.isWord;
     }
 
-    public void search(TrieNode p){
-
+    public void delete(String s){
+        TrieNode node = getNode(s);
+        if(node != null && node.isWord)
+            node.isWord = false;
     }
 
-    public boolean startsWith(String prefix){
-        return getNode(prefix) != null;
+    public boolean isEmpty(){
+        return false;
     }
+
+    public void clear(){
+
+    }
+    public void allWordsPrefix(String p){
+        //return list
+    }
+
+    public int size(){
+        return 1;
+    }
+
 
 
 
