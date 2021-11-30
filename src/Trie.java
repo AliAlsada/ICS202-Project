@@ -1,5 +1,8 @@
+import java.util.ArrayList;
+
 public class Trie {
-    private TrieNode root;
+    protected TrieNode root;
+    int count = 0;
 
     public Trie(){
         root = new TrieNode('\0');
@@ -9,10 +12,24 @@ public class Trie {
         TrieNode p = root;
         for (int i = 0; i < s.length(); i++){
             char c  = s.charAt(i);
-            if (p.children[c - 'a'] == null)
+            if (p.children[c - 'a'] == null) {
                 p.children[c - 'a'] = new TrieNode(c);
+                count++;
+            }
             p = p.children[c - 'a'];
         } p.isWord = true;
+    }
+
+    public void initialInsert(String s){
+        TrieNode p = root;
+        for (int i = 0; i < s.length(); i++){
+            char c  = s.charAt(i);
+            if (p.children[c - 'a'] == null) {
+                p.children[c - 'a'] = new TrieNode(c);
+                count++;
+            }
+            p = p.children[c - 'a'];
+        }
     }
 
 
@@ -26,9 +43,6 @@ public class Trie {
         }return p;
     }
 
-    public boolean isPrefix(String prefix){
-        return getNode(prefix) != null;
-    }
 
     public boolean contains(String word){
         TrieNode node = getNode(word);
@@ -42,18 +56,70 @@ public class Trie {
     }
 
     public boolean isEmpty(){
-        return false;
+        for (int i = 0; i < 25; i++)
+            if(root.children[i] != null)
+                return false;
+            return true;
     }
 
     public void clear(){
 
+        for (int i = 0; i < 25; i++)
+            root.children[i] = null;
     }
-    public void allWordsPrefix(String p){
-        //return list
+
+    public ArrayList<String> allWordsPrefix(String p){
+        return allWordsPrefix(root,p);
+    }
+
+    public ArrayList<String> allWordsPrefix(TrieNode node, String p){
+        ArrayList<String> words = new ArrayList<>();
+
+        TrieNode current = node;
+        //go to the last node of the prefix
+        for(Character c: p.toCharArray()) {
+            TrieNode nextNode = current.children[c - 'a'];
+            if(nextNode == null)
+                return words;
+            current = nextNode; //last node
+        }
+        //if it has children, iterate through all children of the last node
+        if(current.children != null) {
+            findAllWordsForPrefixRecursively(p, current, words);
+        }
+        //if not, and the prefix is a word, insert it to the list
+        else {
+            if(current.isWord)
+                words.add(p);
+        }
+        return words;
+    }
+
+    static void findAllWordsForPrefixRecursively(String prefix, TrieNode node, ArrayList<String> words) {
+
+        if(node.isWord)
+            words.add(prefix);
+
+        //base case
+        else if(node.children == null) {
+            return;
+        }
+
+        //go to the children to find all the prefix words.
+        for (int i = 0; i < 26; i++)
+            if (node.children[i] != null) {
+                char c = node.children[i].el;
+                findAllWordsForPrefixRecursively(prefix + c, node.children[c - 'a'], words);
+            }
+
+    }
+
+    public boolean isPrefix(String prefix){
+        return getNode(prefix) != null;
     }
 
     public int size(){
-        return 1;
+        return count;
     }
 
 

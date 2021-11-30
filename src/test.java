@@ -24,13 +24,16 @@ public class test {
         int choice;
         Trie trie = null;
         do {
-            System.out.println("Enter a number (1-7)> ");
+            System.out.print("Enter a number (1-7)> ");
             choice = scanner.nextInt();
+            System.out.print("\n");
             switch (choice) {
+
                 case 1:
                     trie = new Trie();
-                    System.out.println("Empty trie created");
+                    System.out.println("Empty trie created\n");
                     break;
+
 
                 case 2:
                     System.out.print("Enter your list of letters> ");
@@ -40,7 +43,7 @@ public class test {
                     trie = new Trie();
                     for (String letter : letters)
                         if (!(letter.equals(" ")))
-                            trie.insert(letter.toLowerCase());
+                            trie.initialInsert(letter.toLowerCase());
 
                     //make it a string
                     String word = "";
@@ -51,15 +54,45 @@ public class test {
                     readDic("dictionary.txt", word.toLowerCase(), trie);
                     break;
 
+
                 case 3:
                     if (trie == null) {
+                        System.out.println("Create a trie first\n");
+                        break;
+                    }
+                    System.out.print("Write a word to insert> ");
+                    String userWord = input2.nextLine();
+                    trie.insert(userWord);
+                    System.out.println("inserted\n");
+                    break;
+
+
+                case 4:
+                    System.out.println("Enter a word to delete> ");
+                    String deleteWord = input2.nextLine();
+                    if (trie.contains(deleteWord)){
+                        trie.delete(deleteWord);
+                        System.out.println("The word has deleted successfully");
+                        break;
+                    }
+                    System.out.println("This word is not in the trie");
+                    break;
+
+                case 5:
+                    System.out.print("Enter a prefix> ");
+                    String preFix = input2.nextLine().toLowerCase();
+                    if (!(trie.isPrefix(preFix)))
+                        break;
+                    System.out.println("Found the following words: " + trie.allWordsPrefix(preFix) + "\n");
+                    break;
+
+
+                case 6:
+                    if (trie == null){
                         System.out.println("Create a trie first");
                         break;
                     }
-                    System.out.println("Write a word to insert> ");
-                    String userWord = input2.nextLine();
-                    trie.insert(userWord);
-                    System.out.println("inserted");
+                    System.out.println("The size of the trie is: " + trie.size() + "\n");
                     break;
 
             }
@@ -100,6 +133,6 @@ public class test {
                 trie.insert(dicWord);
             }
         }
-        System.out.println("Trie with initial letters created.");
+        System.out.println("Trie with initial letters created.\n");
     }
 }
