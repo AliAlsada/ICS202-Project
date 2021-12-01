@@ -64,18 +64,21 @@ public class test {
                     String userWord = input2.nextLine();
                     trie.insert(userWord);
                     System.out.println("inserted\n");
+                    System.out.println("===============================================");
                     break;
 
 
                 case 4:
-                    System.out.println("Enter a word to delete> ");
-                    String deleteWord = input2.nextLine();
+                    System.out.print("Enter a word to delete> ");
+                    String deleteWord = input2.nextLine().toLowerCase();
                     if (trie.contains(deleteWord)){
                         trie.delete(deleteWord);
-                        System.out.println("The word has deleted successfully");
+                        System.out.println("The word has deleted successfully\n");
+                        System.out.println("===============================================");
                         break;
                     }
                     System.out.println("This word is not in the trie");
+                    System.out.println("===============================================");
                     break;
 
                 case 5:
@@ -84,6 +87,7 @@ public class test {
                     if (!(trie.isPrefix(preFix)))
                         break;
                     System.out.println("Found the following words: " + trie.allWordsPrefix(preFix) + "\n");
+                    System.out.println("===============================================");
                     break;
 
 
@@ -93,6 +97,7 @@ public class test {
                         break;
                     }
                     System.out.println("The size of the trie is: " + trie.size() + "\n");
+                    System.out.println("===============================================");
                     break;
 
             }
@@ -134,5 +139,6 @@ public class test {
             }
         }
         System.out.println("Trie with initial letters created.\n");
+        System.out.println("===============================================");
     }
 }

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Trie {
     protected TrieNode root;
@@ -53,7 +54,32 @@ public class Trie {
         TrieNode node = getNode(s);
         if(node != null && node.isWord)
             node.isWord = false;
+
+        TrieNode up;
+        for (int i = 0; i < s.length(); i++){
+
+            TrieNode down = getNode(s.substring(0, s.length() - i));
+
+            if (i <= 2)
+                up = getNode(s.substring(0, s.length() - i - 1));
+            else
+                up = root;
+
+            if (down.isWord)
+                return;
+
+            for (int j = 0; j < 26; j++){
+                if (down.children[j] != null)
+                    return;
+            }
+
+            up.children[down.el - 'a'] = null;
+            count--;
+        }
+
     }
+
+
 
     public boolean isEmpty(){
         for (int i = 0; i < 25; i++)
@@ -90,7 +116,7 @@ public class Trie {
         //if not, and the prefix is a word, insert it to the list
         else {
             if(current.isWord)
-                words.add(p);
+                words.add(p.toLowerCase());
         }
         return words;
     }
@@ -98,7 +124,7 @@ public class Trie {
     static void findAllWordsForPrefixRecursively(String prefix, TrieNode node, ArrayList<String> words) {
 
         if(node.isWord)
-            words.add(prefix);
+            words.add(prefix.toUpperCase()); //insert the word to the list
 
         //base case
         else if(node.children == null) {
