@@ -41,9 +41,6 @@ public class test {
 
                     //create a trie and insert the word in it
                     trie = new Trie();
-                    for (String letter : letters)
-                        if (!(letter.equals(" ")))
-                            trie.initialInsert(letter.toLowerCase());
 
                     //make it a string
                     String word = "";
@@ -106,10 +103,10 @@ public class test {
 
     public static void readDic(String filename, String letters, Trie trie) throws FileNotFoundException {
         //count the occurrence of the letters
-        int []avail = new int[26];
+        int []countLetters = new int[26];
         for(char c : letters.toCharArray()){
             int index = c - 'a';
-            avail[index]++;
+            countLetters[index]++;
         }
 
         //read dictionary
@@ -119,16 +116,16 @@ public class test {
             String dicWord = scanner.nextLine().toLowerCase();
 
             //count the occurrence of a character the dictionary word
-            int[] count = new int[26];
+            int[] countWord = new int[26];
             boolean validWord = true;
 
             //loop through each character and count the occurrence
             for(char c : dicWord.toCharArray()){
                 //the index of the character in the array
                 int index = c - 'a';
-                count[index]++;
+                countWord[index]++;
                 //check if the dictionary word is substring of the word (letters)
-                if(count[index] > avail[index]){
+                if(countWord[index] > countLetters[index]){
                     validWord = false;
                     break;
                 }
