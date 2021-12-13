@@ -58,7 +58,7 @@ public class test {
                         break;
                     }
                     System.out.print("Write a word to insert> ");
-                    String userWord = input2.nextLine();
+                    String userWord = input2.nextLine().toLowerCase();
                     trie.insert(userWord);
                     System.out.println("inserted\n");
                     System.out.println("===============================================");
@@ -66,6 +66,10 @@ public class test {
 
 
                 case 4:
+                    if (trie == null) {
+                        System.out.println("Create a trie first\n");
+                        break;
+                    }
                     System.out.print("Enter a word to delete> ");
                     String deleteWord = input2.nextLine().toLowerCase();
                     if (trie.contains(deleteWord)){
@@ -79,6 +83,11 @@ public class test {
                     break;
 
                 case 5:
+
+                    if (trie == null) {
+                        System.out.println("Create a trie first\n");
+                        break;
+                    }
                     System.out.print("Enter a prefix> ");
                     String preFix = input2.nextLine().toLowerCase();
                     if (!(trie.isPrefix(preFix)))
@@ -116,22 +125,22 @@ public class test {
             String dicWord = scanner.nextLine().toLowerCase();
 
             //count the occurrence of a character the dictionary word
-            int[] countWord = new int[26];
-            boolean validWord = true;
+            int[] countDicWord = new int[26];
+            boolean valid = true;
 
             //loop through each character and count the occurrence
             for(char c : dicWord.toCharArray()){
                 //the index of the character in the array
                 int index = c - 'a';
-                countWord[index]++;
+                countDicWord[index]++;
                 //check if the dictionary word is substring of the word (letters)
-                if(countWord[index] > countLetters[index]){
-                    validWord = false;
+                if(countDicWord[index] > countLetters[index]){
+                    valid = false;
                     break;
                 }
             }
             //if it is a valid word, insert it to the trie
-            if (validWord){
+            if (valid){
                 trie.insert(dicWord);
             }
         }
